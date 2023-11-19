@@ -1,0 +1,113 @@
+// You can edit this code!
+// Click here and start typing.
+package main
+
+import (
+	"fmt"
+	"unicode"
+)
+
+func main() {
+	// question 1
+	// Predefined score for testing
+	score := 91
+
+	// Using if statement
+	fmt.Println("Using if statement:")
+	if score >= 90 && score <= 100 {
+		fmt.Println("Grade: A")
+	} else if score >= 80 && score < 90 {
+		fmt.Println("Grade: B")
+	} else if score >= 70 && score < 80 {
+		fmt.Println("Grade: C")
+	} else if score >= 60 && score < 70 {
+		fmt.Println("Grade: D")
+	} else if score >= 0 && score < 60 {
+		fmt.Println("Grade: F")
+	} else {
+		fmt.Println("Invalid score. Please enter a score between 0 and 100.")
+	}
+
+	// Using switch statement
+	fmt.Println("\nUsing switch statement:")
+	switch {
+	case score >= 90 && score <= 100:
+		fmt.Println("Grade: A")
+	case score >= 80 && score < 90:
+		fmt.Println("Grade: B")
+	case score >= 70 && score < 80:
+		fmt.Println("Grade: C")
+	case score >= 60 && score < 70:
+		fmt.Println("Grade: D")
+	case score >= 0 && score < 60:
+		fmt.Println("Grade: F")
+	default:
+		fmt.Println("Invalid score. Please enter a score between 0 and 100.")
+	}
+
+	//question 2
+	// Predefined year for testing
+	year := 2024
+
+	// Using if statement
+	fmt.Println("Using if statement:")
+	if (year%4 == 0 && year%100 != 0) || (year%400 == 0) {
+		fmt.Println(year, "is a leap year.")
+	} else {
+		fmt.Println(year, "is not a leap year.")
+	}
+
+	// Using switch statement
+	fmt.Println("\nUsing switch statement:")
+	switch {
+	case (year%4 == 0 && year%100 != 0) || (year%400 == 0):
+		fmt.Println(year, "is a leap year.")
+	default:
+		fmt.Println(year, "is not a leap year.")
+	}
+
+	//question 3
+
+	// Predefined character for testing
+	char := 'g'
+
+	// Using if statements and boolean values
+	isVowel := (char == 'a' || char == 'e' || char == 'i' || char == 'o' || char == 'u' ||
+		char == 'A' || char == 'E' || char == 'I' || char == 'O' || char == 'U')
+
+	if unicode.IsLetter(char) && isVowel {
+		fmt.Printf("%c is a vowel.\n", char)
+	} else if unicode.IsLetter(char) {
+		fmt.Printf("%c is a consonant.\n", char)
+	} else {
+		fmt.Println("Invalid input. Please enter a single character.")
+	}
+
+	// question 4
+	age := 25
+
+	// Determine ticket price using if statement
+	var ticketPrice int
+
+	if age <= 12 {
+		ticketPrice = 5
+	} else if age > 12 && age <= 64 {
+		ticketPrice = 10
+	} else if age >= 65 {
+		ticketPrice = 7
+	}
+
+	fmt.Printf("Ticket Price (using if): N%d\n", ticketPrice)
+
+	// Determine ticket price using switch statement
+	switch {
+	case age <= 12:
+		ticketPrice = 5
+	case age > 12 && age <= 64:
+		ticketPrice = 10
+	case age >= 65:
+		ticketPrice = 7
+	}
+
+	fmt.Printf("Ticket Price (using switch): N%d\n", ticketPrice)
+}
