@@ -1,0 +1,389 @@
+const express = require("express");
+const app = express();
+app.use(express.json());
+const adminRoute = require("./route/admin.js");
+const teacherRoute = require("./route/lecturer.js")
+const studentRoute = require("./route/student.js")
+
+app.use("/admin", adminRoute);
+app.use("/teacher", teacherRoute);
+app.use("/student", studentRoute);
+
+app.listen(8080, () => {
+  console.log("server running");
+});
+
+// const express = require("express");
+// const app = express();
+// app.use(express.json());
+// let admin = [];
+// let teacher = [];
+// let students = [];
+// let adminCourses = [];
+// let studentCourses = [];
+
+// //register as an admin, teacher or student
+// app.post("/register", (req, res) => {
+//   console.log(req.body);
+//   if (req.body.role == "admin") {
+//     admin.push(req.body);
+//   } else if (req.body.role == "teacher") {
+//     teacher.push(req.body);
+//   } else if (req.body.role == "student") {
+//     students.push(req.body);
+//   }
+//   res.json("Done");
+// });
+
+// //login as a student, admin or teacher
+// app.post("/login", (req, res) => {
+//   let data = req.body;
+//   if (data.role == "admin") {
+//     console.log(data.password)
+//     for (let person in admin) {
+//       console.log(admin[person].password)
+//       if ( admin[person].username == data.username && admin[person].password == data.password) {
+//         res.status(200).json("Welcome admin ");
+
+//       }
+//     }
+//     res.status(400).json("Not an admin");
+//   }
+
+//   if (data.role == "teacher") {
+//     for (let person in teacher) {
+//       if (teacher[person].username == data.username && teacher[person].password == data.password) {
+//         res.status(200).json("Welcome teacher ");
+//       }
+//     }
+//     res.status(400).json("Not a teacher");
+//   }
+
+//   if (data.role == "student") {
+//     for (let person in students) {
+//       if (students[person].username == data.username && students[person].password == data.password) {
+//         res.status(200).json("Welcome student ");
+//       }
+//     }
+//     res.status(400).json("Not a student");
+//   }
+//   res.status(400).json("WRONG INFORMATION PASSED");
+// }
+// );
+
+// //ADMIN
+// //register courses as an admin
+// app.post("/registerCourses/:role", (req, res) => {
+//   if (req.params.role == "admin") {
+//     adminCourses.push(req.body)
+//   }
+//   res.json("Done registering course");
+// });
+
+// //view courses as admin
+// app.get("/courses/:role",(req,res) => {
+//   if (req.params.role === "admin") {
+//     res.json(adminCourses)
+//   }
+//   res.json("unauthorized");
+// })
+
+// // view students as admin
+// app.get("/getStudents/:role", (req, res) => {
+//   if (req.params.role === "admin") {
+//     res.json(students);
+//   }
+//   res.json("unauthorized");
+// });
+
+// //view admin as an admin
+// app.get('/getAdmins/:role', (req,res) => {
+//   if (req.params.role == "admin") {
+//     res.json(admin)
+//   }
+//   else {
+//     res.json("unauthorized")
+//   }
+// })
+
+// //get list of teachers as admin
+// app.get("/getTeachers/:role", (req, res) => {
+//   if (req.params.role == "admin") {
+//     res.json(teacher);
+//   } else {
+//     res.json("unauthorized");
+//   }
+// });
+
+// //get a particular admin
+// // **first check if the role is an admin first before looping through the admin array. if for if
+// app.get("/getanAdmin/:role", (req, res) => {
+//   if (req.params.role == "admin") {
+//     for (let i in admin) {
+//     if (admin[i].username == req.body.username) {
+//       res.json(admin[i]);
+//     } else {
+//       res.json("Admin not found");
+//     }
+//   }
+//   } else {
+//     res.json("Not an admin")
+//   }
+// });
+
+// // change password for the admin
+// app.put("/changeAdminPassword/:username", (req, res) => {
+//   for (i in admin) {
+//     if(admin[i].username == req.params.username){
+//       admin[i].password = req.body.password
+//       res.status(200).json("Admin password changed successfully");
+//     }else {
+//     res.status(404).json("Admin not found");
+//   }
+//   }
+// });
+
+// // drop a student
+// app.delete("/dropStudent/:role", (req, res) => {
+// if (req.params.role == "admin") {
+//   for (let i in students) {
+//     if ( students[i].username == req.body.username) {
+//       const droppedStudent = students.splice(i, 1);
+//       res.json(`${droppedStudent[0].username} deleted`);
+//     } else {
+//       res.json("This student is not in the system");
+//     }
+//   }
+// }
+//   else {
+//     res.json("Not an admin")
+//   }
+// });
+
+// // delete admin course
+// app.delete("/deleteCourse/:role", (req, res) => {
+//   if (req.params.role == "admin") {
+//     for (let i in adminCourses) {
+//       if (adminCourses[i].code == req.body.code) {
+//         const deletedCourse = adminCourses.splice(i, 1);
+//         res.json(`${deletedCourse[0].code} deleted`);
+//       } else {
+//         res.json("Course code does not exist");
+//       }
+//     }
+//   } else {
+//     res.json("Not an admin");
+//   }
+// });
+
+// //STUDENT
+// //get a students profile
+// app.get("/getaStudent/:username", (req, res) => {
+//   for (let i in students) {
+//     if (students[i].username == req.params.username) {
+//       res.json(students[i]);
+//     } else {
+//       res.json("Student not found");
+//     }
+//   }
+// });
+
+// //change student password
+// app.put("/changeStudentPassword/:username", (req, res) => {
+//   for (i in students) {
+//     if (students[i].username == req.params.username) {
+//       students[i].password = req.body.password
+//       res.status(200).json("Student password changed successfully");
+//     } else {
+//       res.status(404).json("Student not found");
+//     }
+//   }
+// });
+
+// // let a student view their course
+// app.get("/viewCourse/:username", (req, res) => {
+//   for (let i in students) {
+//     if (students[i].username == req.params.username) {
+//       res.json(students[i].courses);
+//     } else {
+//       res.json("Student not found");
+//     }
+//   }
+// });
+
+// //let a student add a course
+// //check if the course already exists
+// app.post("/addCourse/:username", (req, res) => {
+//   for (let i in students) {
+//     if (students[i].username == req.params.username) {
+//       students[i].courses.push(req.body.courses);
+//       res.json(students[i].courses);
+//     } else {
+//       res.json("Student not found");
+//     }
+//   }
+// });
+
+// //let a student delete a course
+// app.delete("/deleteACourse/:username", (req, res) => {
+//   for (let i in students) {
+//     for (let j in students[i].courses) {
+//       if (req.body.course == students[i].courses[j] && req.params.username == students[i].username) {
+//         const deletedCourse = students[i].courses.splice(j, 1);
+//         res.json(`${deletedCourse[0]} deleted`);
+//       } else {
+//         res.json("Course code does not exist");
+//       }
+//     }
+//   }
+// });
+
+// //TEACHER
+// //get a particular teacher
+// app.get("/getaTeacher/:username", (req, res) => {
+//   for (let i in teacher) {
+//     if (teacher[i].username == req.params.username) {
+//       res.json(teacher[i]);
+//     } else {
+//       res.json("Teacher not found");
+//     }
+//   }
+// });
+
+// //change teacher password
+// app.put("/changeTeacherPassword/:username", (req, res) => {
+//   for (i in teacher) {
+//     if (teacher[i].username == req.params.username) {
+//       teacher[i].password = req.body.password;
+//       res.status(200).json("Teacher password changed successfully");
+//     } else {
+//       res.status(404).json("Teacher not found");
+//     }
+//   }
+// });
+
+// //get teacher students
+//   app.get("/viewMyStudents/:username", (req, res) => {
+//     for (let i in teacher) {
+//       if (teacher[i].username == req.params.username) {
+//         res.json(teacher[i].students);
+//       } else {
+//         res.json("Teacher not found");
+//       }
+//     }
+//   });
+
+// app.use((req, res, next) => {
+//   next("Page under construction");
+// });
+
+// app.use((error, req, res, next) => {
+//   console.log(error);
+//   res.status(400).json(error);
+// });
+
+// app.listen(3004, () => {
+//   console.log("server starting at port 3004");
+// });
+
+// app.get("/home", (request, response) => {
+//   console.log(request.query)
+//   response.status(204).json("get");
+// });
+
+// app.post("/home", (request, response) => {
+//   console.log(request.query);
+//   response.json("post");
+// });
+
+// app.delete("/home", (request, response) => {
+//   response.json("delete");
+// });
+
+// app.put("/home", (request, response) => {
+//   response.json("put");
+// });
+
+// app.use((request, response) => {
+//   response.json("Hi");
+// });
+
+// app.get("/names", (req, res) => {
+//   res.send(["hameedah", "lilly"]);
+// });
+
+// const env = require('./config/env')
+// const config = env.config
+
+// app.get()
+// app.post()
+// app.delete()
+// app.put()
+// app.use()
+
+// npm i nodemon
+
+// register a course as a student
+// app.post("/courses/:role", (req, res) => {
+//   if (req.params.role == "student") {
+//     studentCourses.push(req.body);
+//   }
+//   res.json("Done registering course");
+// });
+
+// if (req.params.role === "admin") {
+//   const index = adminCourses.find((course) => course.code === req.body.code);
+//   console.log(index)
+// if (index !== -1) {
+//   const deletedCourse = courses.splice(index, 1);
+//   res.json(`${deletedCourse[0].code} deleted`);
+// } else {
+//   res.json("Course code does not exist");
+// }
+// }
+
+// for (let i in students) {
+//   if ( req.body.course in students[i].courses) {
+//     console.log("yes")
+//     // const deletedCourse = adminCourses.splice(i, 1);
+//     // res.json(`${deletedCourse[0].code} deleted`);
+//   } else {
+//     res.json("Course code does not exist");
+//   }
+// }
+
+// app.get("/getanAdmin/:role", (req, res) => {
+//   for (let i in admin) {
+//     if (admin[i].username == req.body.username && req.params.role == "admin") {
+//       res.json(admin[i]);
+//     }
+//   }
+// });
+
+// app.get("/getStudents/:role", (req, res) => {
+//   if (req.params.role == "student") {
+//     res.json(admin);
+//   } else {
+//     res.json("unauthorized");
+//   }
+// });
+
+// app.get("/getTeacher/:role", (req, res) => {
+//   if (req.params.role == "teacher") {
+//     res.json(admin);
+//   } else {
+//     res.json("unauthorized");
+//   }
+// });
+
+// app.get("/getCourses", (req,res) => {
+//   res.json(courses)
+// })
+
+// app.post("/course/:role", (req, res) => {
+//   if (req.params.role == "admin") {
+//     courses.push(req.body);
+//     res.json("Course created successfully");
+//   }
+//   res.json("UNAUTHORISED");
+// });
